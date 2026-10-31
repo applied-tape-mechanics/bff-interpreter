@@ -1,5 +1,6 @@
 services:
   bff-interpreter:
+    image: ghcr.io/applied-tape-mechanics/bff-interpreter:latest
     build:
       context: .
       target: runner
@@ -11,4 +12,6 @@ services:
       context: .
       target: test
     container_name: bff-interpreter-test
+    profiles:
+      - test
     command: npm test
