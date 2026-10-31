@@ -1,0 +1,32 @@
+{
+  "name": "bff-interpreter",
+  "version": "1.0.0",
+  "description": "High-performance Brainfuck virtual machine for BFF microservices and browsers",
+  "keywords": ["brainfuck", "interpreter", "esoteric", "vm"],
+  "author": "mat-ocl <mat-ocl@pm.me>",
+  "license": "MIT",
+  "type": "module",
+  "engines": { "node": ">=22.18" },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./browser": "./bff-interpreter.js"
+  },
+  "bin": { "bff-interpreter": "./dist/cli.js" },
+  "files": ["dist", "bff-interpreter.js", "README.md", "LICENSE"],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json && esbuild src/browser.ts --bundle --minify=false --format=iife --global-name=BFF --target=es2020 --footer:js=\"var BrainfuckVM = BFF.BrainfuckVM;\" --outfile=bff-interpreter.js",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test",
+    "bench": "node bench/benchmark.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.18.0",
+    "esbuild": "^0.25.0",
+    "typescript": "^5.9.0"
+  }
+}

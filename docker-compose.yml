@@ -1,0 +1,14 @@
+services:
+  bff-interpreter:
+    build:
+      context: .
+      target: runner
+    container_name: bff-interpreter-runner
+    restart: "no"
+
+  test:
+    build:
+      context: .
+      target: test
+    container_name: bff-interpreter-test
+    command: npm test
