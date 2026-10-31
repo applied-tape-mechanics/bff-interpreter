@@ -1,4 +1,4 @@
-name: CI, Docker (GHCR), Pages & Release
+name: CI, Docker (GHCR) & Release
 
 on:
   push:
@@ -10,8 +10,6 @@ on:
 permissions:
   contents: write
   packages: write
-  pages: write
-  id-token: write
 
 jobs:
   test-and-build:
@@ -44,26 +42,6 @@ jobs:
           path: |
             bff-interpreter.js
             bff-interpreter-*.tgz
-            dist/
-
-  deploy-pages:
-    needs: test-and-build
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: js-release-assets
-          path: public
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: public
-      - id: deployment
-        uses: actions/deploy-pages@v4
 
   docker:
     needs: test-and-build
